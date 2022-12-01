@@ -1,0 +1,38 @@
+1. minikube start
+kubectl cluster-info :   https://127.0.0.1:53407
+minikube docker-env
+@FOR /f "tokens=*" %i IN ('minikube -p minikube docker-env --shell cmd') DO @%i
+
+docker build -t app-kub:v3 .
+
+if any pods fst delete them:next:
+kubectl apply -f deployment.yaml
+
+kubectl get pods
+
+kubectl logs pod-name(test-app-kub-7b6b4cbc5b-4gmsx )
+
+#dashboard
+minikube dashboard
+http://127.0.0.1:53736/api/v1/namespaces/kubernetes-dashboard/services/http:kubernetes-dashboard:/proxy/
+
+#a pod can have multiple containers,im removing one deployment in a pod
+kubectl delete deploy cont-name(test-app-kubernetes)
+
+#here i've taken 5 instances ,so that if multiple requests come ,load is distributed to these 5 instances
+#with the help of load balancer service
+
+The service you have created is of type ClusterIP which is only accessible from inside the cluster. You have two ways to access it from your desktop:
+
+Create a nodeport type service and then access it via nodeip:nodeport
+
+Use Kubectl port forward and then access it via localhost:forwardedport
+kubectl port-forward pod-name 8000:8000
+
+kubectl port-forward test-app-kub-7b6b4cbc5b-4gmsx 8000:8000
+
+#https://cloud.google.com/kubernetes-engine/docs/how-to/exposing-apps
+#https://stackoverflow.com/questions/59558303/how-to-find-the-url-of-a-service-in-kubernetes
+
+op in browser:
+http://localhost:8000/ping
